@@ -6,7 +6,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: php:8.3
     container_name: app
     restart: unless-stopped
     tty: true
@@ -16,6 +15,14 @@ services:
     working_dir: /var/www/laravel
     networks:
       - app-network
+
+  # php:
+  #   container_name: php
+  #   build:
+  #     context: dockerfiles
+  #     dockerfile: php.Dockerfile
+  #   networks:
+  #     - app-network
 
   # Nginx Service
   webserver:
@@ -33,19 +40,19 @@ services:
       - app-network
 
   # MySQL Service
-  db:
+  mysql:
     image: mysql:5.7.22
     volumes:
       - ./data/mysql:/var/lib/mysql
-    container_name: db
+    container_name: mysql
     restart: unless-stopped
     tty: true
     ports:
       - "3306:3306"
     environment:
-      SERVICE_TAGS: dev
-      SERVICE_NAME: mysql
-      MYSQL_ROOT_PASSWORD: p@$$w0rd
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: laravel
+      MYSQL_PASSWORD: laravel
     networks:
       - app-network
 
