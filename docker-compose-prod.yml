@@ -7,11 +7,14 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: app
+    image: php:8.3-fpm-alpine
     restart: unless-stopped
     tty: true
     environment:
       SERVICE_NAME: app
       SERVICE_TAGS: dev
+    volumes:
+      - ./configs/local.ini:/usr/local/etc/php/conf.d/local.ini
     working_dir: /var/www/laravel
     networks:
       - app-network
