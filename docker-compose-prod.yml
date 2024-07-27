@@ -3,16 +3,7 @@ services:
 
   # PHP Service
   app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: app
-    image: php:8.3-fpm-alpine
-    restart: unless-stopped
-    tty: true
-    environment:
-      SERVICE_NAME: app
-      SERVICE_TAGS: dev
+    image: 3ddi3/test
     volumes:
       - ./configs/local.ini:/usr/local/etc/php/conf.d/local.ini
       - ./src:/var/www/laravel
