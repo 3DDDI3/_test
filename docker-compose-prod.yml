@@ -28,29 +28,20 @@ services:
     networks:
       - app-network
 
+  # MySQL Service
   mysql:
-  container_name: frontend_mysql
-  image: mysql:8.0
-  environment:
-    MYSQL_ROOT_PASSWORD: root
-    MYSQL_USER: laravel
-    MYSQL_PASSWORD: laravel
-  ports:
-    - "3307:3306"
-  volumes:
-    - ./data/mysql:/var/lib/mysql
-  networks:
-    - app-network
-
-  phpmyadmin:
-    container_name: frontend_pma
-    image: phpmyadmin:5.2
+    image: mysql:5.7.22
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+    container_name: mysql
+    restart: unless-stopped
+    tty: true
     ports:
-      - 8080:80
+      - "3307:3306"
     environment:
-      PMA_HOST: mysql
-      MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
-      PMA_PORT: 3306
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: laravel
+      MYSQL_PASSWORD: laravel
     networks:
       - app-network
 
@@ -65,6 +56,18 @@ services:
       - 5173:5173
     volumes:
       - ./src:/var/www/laravel
+    networks:
+      - app-network
+
+  phpmyadmin:
+    container_name: frontend_pma
+    image: phpmyadmin:5.2
+    ports:
+      - 8080:80
+    environment:
+      PMA_HOST: mysql
+      MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
+      PMA_PORT: 3306
     networks:
       - app-network
 
