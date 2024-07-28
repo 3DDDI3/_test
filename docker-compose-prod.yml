@@ -11,18 +11,10 @@ services:
     networks:
       - app-network
 
-  # php:
-  #   container_name: php
-  #   build:
-  #     context: dockerfiles
-  #     dockerfile: php.Dockerfile
-  #   networks:
-  #     - app-network
-
   # Nginx Service
-  webserver:
+  nginx:
     image: nginx:alpine
-    container_name: webserver
+    container_name: nginx
     restart: unless-stopped
     tty: true
     ports:
@@ -30,7 +22,8 @@ services:
       - "4443:443"
     volumes:
       - ./src:/var/www/laravel
-      - ./configs/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - /etc/sll/certs:/etc/ssl/certs
+      - /var/www/httpd-cert/www-root:/var/www/httpd-cert/www-root
     networks:
       - app-network
 
@@ -55,3 +48,7 @@ services:
 networks:
   app-network:
     driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.0.0/16
+          gateway: 192.168.0.1
