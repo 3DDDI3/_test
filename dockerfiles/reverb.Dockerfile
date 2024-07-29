@@ -10,7 +10,7 @@ RUN docker-php-ext-configure pcntl --enable-pcntl \
 
 WORKDIR /var/www/laravel
 
-RUN composer require laravel/reverb:@beta
+RUN composer require laravel/reverb:@beta --ignore-platform-req=ext-sockets
 
 EXPOSE ${PORT}
 

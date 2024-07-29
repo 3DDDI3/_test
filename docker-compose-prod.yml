@@ -4,6 +4,7 @@ services:
   # PHP Service
   app:
     image: 3ddi3/test
+    container_name: app
     volumes:
       - ./configs/local.ini:/usr/local/etc/php/conf.d/local.ini
       - ./src:/var/www/laravel
@@ -56,6 +57,7 @@ services:
       - 5173:5173
     volumes:
       - ./src:/var/www/laravel
+    working_dir: /var/www/laravel
     networks:
       - app-network
 
@@ -63,7 +65,7 @@ services:
     container_name: frontend_pma
     image: phpmyadmin:5.2
     ports:
-      - 8080:80
+      - 8081:80
     environment:
       PMA_HOST: mysql
       MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
@@ -89,7 +91,7 @@ services:
       timeout: 400s
       retries: 10
     ports:
-      - 9001:9000
+      - 9000:9000
     networks:
       - app-network
 
